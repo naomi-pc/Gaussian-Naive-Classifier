@@ -30,8 +30,19 @@ class NaiveBayesClassifier:
         return probabilities
 
 
+def extract_hog(image):
+    hog_features, _ = feature.hog(image, visualize=True)
+    return hog_features
 
-    if img_path.endswith(".png") or img_path.endswith(".bmp"):
+def load_images_from_folder(folder):
+    images = []
+    labels = []
+    for subfolder in os.listdir(folder):
+        subfolder_path = os.path.join(folder, subfolder)
+        if os.path.isdir(subfolder_path):
+            for filename in os.listdir(subfolder_path):
+                img_path = os.path.join(subfolder_path, filename)
+                if img_path.endswith(".png") or img_path.endswith(".bmp"):
                     img = io.imread(img_path)
                     img_gray = color.rgb2gray(img) if img.ndim == 3 else img
                     hog_features = extract_hog(img_gray)

@@ -54,3 +54,20 @@ data_folder = "complete_ms_data"
 X, y = load_images_from_folder(data_folder)
 
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25, random_state=42, stratify=y)
+
+nb_classifier = NaiveBayesClassifier()
+nb_classifier.fit(X_train, y_train)
+
+y_pred_probabilities = nb_classifier.predict(X_test)
+
+y_pred = np.argmax(y_pred_probabilities, axis=1)
+
+accuracy = accuracy_score(y_test, y_pred)
+
+y_test = y_test.astype('str')
+y_pred = y_pred.astype('str')
+
+conf_matrix = confusion_matrix(y_test, y_pred)
+
+print("Accuracy:", accuracy)
+print("Confusion Matrix:\n", conf_matrix)

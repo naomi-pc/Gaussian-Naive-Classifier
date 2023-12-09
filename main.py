@@ -28,3 +28,18 @@ class NaiveBayesClassifier:
             probabilities[:, i] = prior_prob * np.prod(likelihood, axis=1)
 
         return probabilities
+
+
+
+    if img_path.endswith(".png") or img_path.endswith(".bmp"):
+                    img = io.imread(img_path)
+                    img_gray = color.rgb2gray(img) if img.ndim == 3 else img
+                    hog_features = extract_hog(img_gray)
+                    images.append(hog_features)
+                    labels.append(subfolder)
+    return np.array(images), np.array(labels)
+
+data_folder = "complete_ms_data"
+X, y = load_images_from_folder(data_folder)
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25, random_state=42, stratify=y)
